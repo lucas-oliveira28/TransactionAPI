@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity(name = "Users")
 @Table(name = "users")
 @Getter
@@ -29,6 +32,12 @@ public class User {
     private Role role;
 
     private Double balance;
+
+    @OneToMany(mappedBy = "sender")
+    private Set<Transaction> transactionsSend;
+
+    @OneToMany(mappedBy = "receiver")
+    private Set<Transaction> transactionsReceived;
 
     public User(String name, String email, String password, Role role) {
         this.name = name;
