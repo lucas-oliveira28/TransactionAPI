@@ -25,10 +25,12 @@ public class Transaction {
     private String description;
     private Instant date;
 
-    @OneToOne(cascade = jakarta.persistence.CascadeType.ALL)
+    @ManyToOne()
+    @JoinColumn(name = "sender_id")
     private User sender;
 
-    @OneToOne(cascade = jakarta.persistence.CascadeType.ALL)
+    @ManyToOne()
+    @JoinColumn(name = "receiver_id")
     private User receiver;
 
     public Transaction(Double amount, String description, Instant date, User sender, User receiver) {
