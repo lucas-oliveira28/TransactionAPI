@@ -19,9 +19,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Column(unique = true)
     private String email;
+
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
     private Double balance;
 
     public User(String name, String email, String password, Role role) {
@@ -29,5 +35,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.balance = 0.0;
     }
 }
