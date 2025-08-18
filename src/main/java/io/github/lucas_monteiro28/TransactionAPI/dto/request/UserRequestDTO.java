@@ -1,4 +1,4 @@
-package io.github.lucas_monteiro28.TransactionAPI.dto;
+package io.github.lucas_monteiro28.TransactionAPI.dto.request;
 
 import io.github.lucas_monteiro28.TransactionAPI.model.enums.Role;
 import jakarta.validation.constraints.Email;

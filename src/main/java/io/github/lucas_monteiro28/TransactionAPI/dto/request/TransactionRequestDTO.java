@@ -1,4 +1,4 @@
-package io.github.lucas_monteiro28.TransactionAPI.dto;
+package io.github.lucas_monteiro28.TransactionAPI.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

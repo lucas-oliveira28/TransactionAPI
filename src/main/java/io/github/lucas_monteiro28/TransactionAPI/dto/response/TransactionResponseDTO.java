@@ -1,6 +1,4 @@
-package io.github.lucas_monteiro28.TransactionAPI.dto;
-
-import io.github.lucas_monteiro28.TransactionAPI.model.User;
+package io.github.lucas_monteiro28.TransactionAPI.dto.response;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -10,8 +8,8 @@ public record TransactionResponseDTO(
         UUID id,
         Double amount,
         String description,
-        User sender,
-        User receiver,
+        String senderName,
+        String receiverName,
         Instant timestamp
 
 ) {

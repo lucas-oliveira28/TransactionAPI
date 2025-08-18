@@ -1,4 +1,4 @@
-package io.github.lucas_monteiro28.TransactionAPI.dto;
+package io.github.lucas_monteiro28.TransactionAPI.dto.response;
 
 import io.github.lucas_monteiro28.TransactionAPI.model.enums.Role;
 
