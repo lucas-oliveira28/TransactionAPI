@@ -23,7 +23,10 @@ public class TransactionService {
     private final UserRepository userRepository;
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
+    public TransactionService(
+            TransactionRepository transactionRepository,
+            UserRepository userRepository
+    ) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
     }
