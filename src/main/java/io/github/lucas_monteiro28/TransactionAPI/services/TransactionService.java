@@ -1,7 +1,10 @@
 package io.github.lucas_monteiro28.TransactionAPI.services;
 
+import io.github.lucas_monteiro28.TransactionAPI.controllers.AuthorizationController;
+import io.github.lucas_monteiro28.TransactionAPI.dto.request.AuthorizationResponseDTO;
 import io.github.lucas_monteiro28.TransactionAPI.dto.request.TransactionRequestDTO;
 import io.github.lucas_monteiro28.TransactionAPI.dto.response.TransactionResponseDTO;
+import io.github.lucas_monteiro28.TransactionAPI.exceptions.AuthorizationApiException;
 import io.github.lucas_monteiro28.TransactionAPI.exceptions.RequestErrorException;
 import io.github.lucas_monteiro28.TransactionAPI.model.Transaction;
 import io.github.lucas_monteiro28.TransactionAPI.model.User;
@@ -11,7 +14,6 @@ import io.github.lucas_monteiro28.TransactionAPI.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -23,14 +25,16 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final AuthorizationController authorizationController;
 
     @Autowired
     public TransactionService(
             TransactionRepository transactionRepository,
-            UserRepository userRepository
+            UserRepository userRepository, AuthorizationController authorizationController
     ) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.authorizationController = authorizationController;
     }
 
     private Transaction buildTransactionEntity(TransactionRequestDTO dto) {
@@ -59,6 +63,7 @@ public class TransactionService {
 
     public void saveTransaction(TransactionRequestDTO dto) {
         Transaction transaction = buildTransactionEntity(dto);
+        authorizeTransaction();
         debt(transaction);
         transactionRepository.save(transaction);
     }
@@ -103,6 +108,24 @@ public class TransactionService {
         transaction.getReceiver().setBalance(transaction.getReceiver().getBalance().add(transaction.getAmount()));
         userRepository.save(transaction.getSender());
         userRepository.save(transaction.getReceiver());
+    }
+
+    private void authorizeTransaction(){
+        try {
+            AuthorizationResponseDTO response = authorizationController.authorization();
+
+            if (!"success".equalsIgnoreCase(response.status()) ||
+                    !response.data().authorization()) {
+                throw new RequestErrorException("Transação não autorizada");
+            }
+
+        } catch (AuthorizationApiException ex) {
+            AuthorizationResponseDTO dto = ex.getResponseDTO();
+
+            if (!"success".equalsIgnoreCase(dto.status()) || !dto.data().authorization()) {
+                throw new RequestErrorException("Transação não autorizada");
+            }
+        }
     }
 
 }
