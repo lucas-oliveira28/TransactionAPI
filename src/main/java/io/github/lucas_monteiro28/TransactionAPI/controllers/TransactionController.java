@@ -29,4 +29,10 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.findAllTransactions());
     }
 
+    @PostMapping("/recall/{id}")
+    public ResponseEntity<String> recallTransaction(@PathVariable String id) {
+        transactionService.recallTransaction(id);
+        return ResponseEntity.ok("Transaction recalled successfully");
+    }
+
 }

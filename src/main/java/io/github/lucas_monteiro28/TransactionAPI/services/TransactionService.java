@@ -11,10 +11,12 @@ import io.github.lucas_monteiro28.TransactionAPI.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TransactionService {
@@ -65,6 +67,23 @@ public class TransactionService {
         return transactionRepository.findAll().stream()
                 .map(this::buildTransactionResponseDTO)
                 .toList();
+    }
+
+    public void recallTransaction(String id) {
+        Optional<Transaction> transaction = transactionRepository.findById(UUID.fromString(id));
+        if (transaction.isEmpty()) {
+            throw new IllegalArgumentException("Transaction not found");
+        }
+        Transaction recalledTransaction = new Transaction(
+                transaction.get().getAmount(), "Recall amount from id " + id,
+                Instant.now(), transaction.get().getReceiver(), transaction.get().getSender()
+        );
+
+        recalledTransaction.getSender().setBalance(recalledTransaction.getSender().getBalance().subtract(recalledTransaction.getAmount()));
+        recalledTransaction.getReceiver().setBalance(recalledTransaction.getReceiver().getBalance().add(recalledTransaction.getAmount()));
+        userRepository.save(recalledTransaction.getSender());
+        userRepository.save(recalledTransaction.getReceiver());
+        transactionRepository.save(recalledTransaction);
     }
 
     private void debt(Transaction transaction) {
