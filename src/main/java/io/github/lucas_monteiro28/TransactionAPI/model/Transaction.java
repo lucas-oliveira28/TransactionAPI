@@ -1,11 +1,9 @@
 package io.github.lucas_monteiro28.TransactionAPI.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -15,14 +13,20 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString(exclude = {"sender", "receiver"})
 public class Transaction {
 
     @Id
-    @GeneratedValue
-    @org.hibernate.annotations.UuidGenerator
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private Double amount;
+
+    @Column(name = "amount", precision = 10, scale = 2, nullable = false)
+    private BigDecimal amount;
+
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "date", nullable = false)
     private Instant date;
 
     @ManyToOne()
@@ -34,7 +38,7 @@ public class Transaction {
     private User receiver;
 
     public Transaction(Double amount, String description, Instant date, User sender, User receiver) {
-        this.amount = amount;
+        this.amount = BigDecimal.valueOf(amount);
         this.description = description;
         this.date = date;
         this.sender = sender;
