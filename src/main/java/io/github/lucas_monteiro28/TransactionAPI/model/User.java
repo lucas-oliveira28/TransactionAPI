@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 @ToString(exclude = {"transactionsSend", "transactionsReceived"})
 public class User {
 
@@ -42,11 +42,11 @@ public class User {
     @OneToMany(mappedBy = "receiver")
     private Set<Transaction> transactionsReceived;
 
-    public User(String name, String email, String password, Role role, Double balance) {
+    public User(String name, String email, String password, Role role, BigDecimal balance) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.balance = BigDecimal.valueOf(balance);
+        this.balance = balance;
     }
 }

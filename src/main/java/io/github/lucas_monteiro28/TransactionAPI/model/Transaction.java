@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 @ToString(exclude = {"sender", "receiver"})
 public class Transaction {
 
@@ -20,7 +20,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "amount", precision = 10, scale = 2, nullable = false)
+    @Column(name = "balance", precision = 10, scale = 2, nullable = false)
     private BigDecimal amount;
 
     @Column(name = "description", nullable = false)
@@ -37,8 +37,8 @@ public class Transaction {
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
-    public Transaction(Double amount, String description, Instant date, User sender, User receiver) {
-        this.amount = BigDecimal.valueOf(amount);
+    public Transaction(BigDecimal amount, String description, Instant date, User sender, User receiver) {
+        this.amount = amount;
         this.description = description;
         this.date = date;
         this.sender = sender;
