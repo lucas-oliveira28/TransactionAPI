@@ -114,8 +114,8 @@ public class TransactionService {
         try {
             AuthorizationResponseDTO response = authorizationController.authorization();
 
-            if (!"success".equalsIgnoreCase(response.status()) ||
-                    !response.data().authorization()) {
+            if (!response.status().equalsIgnoreCase("success") ||
+                !response.data().authorization()) {
                 throw new RequestErrorException("Transação não autorizada");
             }
 

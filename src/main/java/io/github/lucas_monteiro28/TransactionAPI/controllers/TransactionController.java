@@ -3,6 +3,7 @@ package io.github.lucas_monteiro28.TransactionAPI.controllers;
 import io.github.lucas_monteiro28.TransactionAPI.dto.request.TransactionRequestDTO;
 import io.github.lucas_monteiro28.TransactionAPI.dto.response.TransactionResponseDTO;
 import io.github.lucas_monteiro28.TransactionAPI.services.TransactionService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class TransactionController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> newTransaction(@RequestBody TransactionRequestDTO dto) {
+    public ResponseEntity<String> newTransaction(@RequestBody @Valid TransactionRequestDTO dto) {
         transactionService.saveTransaction(dto);
         return ResponseEntity.ok("Transaction saved successfully");
     }

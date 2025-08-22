@@ -3,6 +3,7 @@ package io.github.lucas_monteiro28.TransactionAPI.controllers;
 import io.github.lucas_monteiro28.TransactionAPI.dto.request.UserRequestDTO;
 import io.github.lucas_monteiro28.TransactionAPI.dto.response.UserResponseDTO;
 import io.github.lucas_monteiro28.TransactionAPI.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveUser(@RequestBody UserRequestDTO dto) {
+    public ResponseEntity<String> saveUser(@RequestBody @Valid UserRequestDTO dto) {
         userService.saveUser(dto);
         return ResponseEntity.ok("User saved successfully");
     }
