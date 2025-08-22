@@ -20,7 +20,7 @@ public record UserRequestDTO(
         String password,
 
         @NotBlank(message = "Role cannot be blank")
-        Role role,
+        String role,
 
         @NotNull(message = "Balance cannot be null")
         Double balance

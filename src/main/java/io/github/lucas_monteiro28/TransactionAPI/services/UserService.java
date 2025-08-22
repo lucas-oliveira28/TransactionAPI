@@ -4,6 +4,7 @@ import io.github.lucas_monteiro28.TransactionAPI.dto.request.UserRequestDTO;
 import io.github.lucas_monteiro28.TransactionAPI.dto.response.UserResponseDTO;
 import io.github.lucas_monteiro28.TransactionAPI.exceptions.RequestNotFoundException;
 import io.github.lucas_monteiro28.TransactionAPI.model.User;
+import io.github.lucas_monteiro28.TransactionAPI.model.enums.Role;
 import io.github.lucas_monteiro28.TransactionAPI.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class UserService {
     public User buildUserEntity(UserRequestDTO dto) {
         return new User(
                 dto.name(), dto.email(), dto.password(),
-                dto.role(), BigDecimal.valueOf(dto.balance())
+                Role.valueOf(dto.role()), BigDecimal.valueOf(dto.balance())
         );
     }
 
