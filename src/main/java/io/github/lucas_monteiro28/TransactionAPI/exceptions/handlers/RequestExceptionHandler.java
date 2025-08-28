@@ -14,7 +14,7 @@ import java.time.Instant;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-public class RequestExceptionHandler {
+public class  RequestExceptionHandler {
 
     @ExceptionHandler(RequestNotFoundException.class)
     public ResponseEntity<StandardError> handleRequestNotFoundException(RequestNotFoundException e, HttpServletRequest request) {
